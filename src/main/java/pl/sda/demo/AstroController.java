@@ -1,8 +1,6 @@
 package pl.sda.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -19,5 +17,13 @@ public class AstroController {
     @GetMapping
     public Map<String, Long> getAstronauts() {
         return astroWebService.getAstronauts();
+    }
+
+    @PostMapping
+    public Astronaut postAstronaut(@RequestBody Astronaut astronaut){
+        //todo save astronaut
+        //astroWebService.save(astronaut)
+
+        return new Astronaut(astronaut.name(), astronaut.craft());
     }
 }
