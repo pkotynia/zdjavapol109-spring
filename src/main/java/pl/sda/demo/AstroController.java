@@ -1,7 +1,9 @@
 package pl.sda.demo;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,9 +23,25 @@ public class AstroController {
 
     @PostMapping
     public Astronaut postAstronaut(@RequestBody Astronaut astronaut){
-        //todo save astronaut
-        //astroWebService.save(astronaut)
+
+        astroWebService.save(astronaut);
 
         return new Astronaut(astronaut.name(), astronaut.craft());
+    }
+
+    @GetMapping("/all")
+    public List<Astronaut> getAllAstronauts() {
+        return astroWebService.getAll();
+    }
+
+    @GetMapping("{id}")
+    public Astronaut getAstronautById(@PathVariable int id) {
+        return astroWebService.getAstronautById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAstronautById(@PathVariable int id) {
+        astroWebService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
