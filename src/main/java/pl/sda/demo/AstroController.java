@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/astronauts")
@@ -23,7 +24,7 @@ public class AstroController {
     }
 
     @GetMapping()
-    public List<Astronaut> getAllAstronauts() {
+    public Iterable<Astronaut> getAllAstronauts() {
         return astroWebService.getAll();
     }
 
@@ -34,14 +35,14 @@ public class AstroController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Astronaut> getAstronautById(@PathVariable int id) {
-        Astronaut result = astroWebService.getAstronautById(id);
-        if (result == null) {
+        Optional<Astronaut> result = astroWebService.getAstronautById(id);
+        if (!result.isPresent()) {
             return ResponseEntity
                     .notFound()
                     .build();
         } else {
             return ResponseEntity
-                    .ok(result);
+                    .ok(result.get());
         }
 
     }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,10 +15,10 @@ public class AstroWebService {
     //@Autowired
     private final RestTemplateBuilder builder;
 
-    private final AstronautRepository repository;
+    private final AstronautJdbcRepository repository;
 
 //    Dependency injection using constructor
-    public AstroWebService(RestTemplateBuilder builder, AstronautRepository repository) {
+    public AstroWebService(RestTemplateBuilder builder, AstronautJdbcRepository repository) {
         this.builder = builder;
         this.repository = repository;
     }
@@ -26,8 +27,8 @@ public class AstroWebService {
         return repository.save(astronaut);
     }
 
-    List<Astronaut> getAll() {
-        return repository.getAllAstronauts();
+    Iterable<Astronaut> getAll() {
+        return repository.findAll();
     }
 
     Map<String, Long> getAstronauts() {
@@ -42,18 +43,19 @@ public class AstroWebService {
     }
 
     public void delete(int id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
-    public Astronaut getAstronautById(int id) {
-        return repository.getAstronautById(id);
+    public Optional<Astronaut> getAstronautById(int id) {
+        return repository.findById(id);
     }
 
     public List<String> getAllCrafts() {
-        return repository.getAllAstronauts()
-                .stream()
-                .map(astronaut -> astronaut.craft())
-                .toList();
+        return null;
+//        return repository.findAll()
+//                .stream()
+//                .map(astronaut -> astronaut.craft())
+//                .toList();
     }
 //    Dependency injection by using Autowired on setter method
 //    @Autowired
