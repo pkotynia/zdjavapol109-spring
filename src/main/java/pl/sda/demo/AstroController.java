@@ -16,32 +16,43 @@ public class AstroController {
         this.astroWebService = astroWebService;
     }
 
-    @GetMapping
-    public Map<String, Long> getAstronauts() {
-        return astroWebService.getAstronauts();
-    }
-
     @PostMapping
     public Astronaut postAstronaut(@RequestBody Astronaut astronaut){
-
         astroWebService.save(astronaut);
-
         return new Astronaut(astronaut.name(), astronaut.craft());
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     public List<Astronaut> getAllAstronauts() {
         return astroWebService.getAll();
     }
 
-    @GetMapping("{id}")
-    public Astronaut getAstronautById(@PathVariable int id) {
-        return astroWebService.getAstronautById(id);
+    @GetMapping("/all/crafts")
+    public List<String> getAllCrafts() {
+        return astroWebService.getAllCrafts();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Astronaut> getAstronautById(@PathVariable int id) {
+        Astronaut result = astroWebService.getAstronautById(id);
+        if (result == null) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        } else {
+            return ResponseEntity
+                    .ok(result);
+        }
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAstronautById(@PathVariable int id) {
-        astroWebService.delete(id);
-        return ResponseEntity.noContent().build();
+        if (astroWebService.getAstronautById(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            astroWebService.delete(id);
+            return ResponseEntity.noContent().build();
+        }
     }
 }

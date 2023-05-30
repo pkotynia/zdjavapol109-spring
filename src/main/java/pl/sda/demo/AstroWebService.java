@@ -48,6 +48,13 @@ public class AstroWebService {
     public Astronaut getAstronautById(int id) {
         return repository.getAstronautById(id);
     }
+
+    public List<String> getAllCrafts() {
+        return repository.getAllAstronauts()
+                .stream()
+                .map(astronaut -> astronaut.craft())
+                .toList();
+    }
 //    Dependency injection by using Autowired on setter method
 //    @Autowired
 //    public void setBuilder(RestTemplateBuilder builder) {
