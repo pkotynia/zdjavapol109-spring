@@ -1,4 +1,4 @@
-package pl.sda.demo;
+package pl.sda.demo.astronaut.astronaut;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package pl.sda.demo;
+package pl.sda.demo.astronaut.astronaut;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

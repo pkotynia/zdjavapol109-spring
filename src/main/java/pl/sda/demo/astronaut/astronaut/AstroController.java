@@ -1,10 +1,9 @@
-package pl.sda.demo;
+package pl.sda.demo.astronaut.astronaut;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -19,8 +18,7 @@ public class AstroController {
 
     @PostMapping
     public Astronaut postAstronaut(@RequestBody Astronaut astronaut){
-        astroWebService.save(astronaut);
-        return new Astronaut(astronaut.name(), astronaut.craft());
+        return astroWebService.save(astronaut);
     }
 
     @GetMapping()
@@ -36,14 +34,18 @@ public class AstroController {
     @GetMapping("/{id}")
     public ResponseEntity<Astronaut> getAstronautById(@PathVariable int id) {
         Optional<Astronaut> result = astroWebService.getAstronautById(id);
-        if (!result.isPresent()) {
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        } else {
-            return ResponseEntity
-                    .ok(result.get());
-        }
+        return result
+                .map(astronaut -> ResponseEntity.ok(astronaut))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+
+//        if (!result.isPresent()) {
+//            return ResponseEntity
+//                    .notFound()
+//                    .build();
+//        } else {
+//            return ResponseEntity
+//                    .ok(result.get());
+//        }
 
     }
 

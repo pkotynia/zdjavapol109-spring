@@ -1,14 +1,13 @@
-package pl.sda.demo;
+package pl.sda.demo.astronaut.astronaut;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class AstronautJdbcRepository implements CrudRepository<Astronaut, Integer> {
@@ -21,7 +20,16 @@ public class AstronautJdbcRepository implements CrudRepository<Astronaut, Intege
 
     @Override
     public <S extends Astronaut> S save(S entity) {
-        return null;
+        SimpleJdbcInsert astronautInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("astronaut")
+                .usingGeneratedKeyColumns("astronaut_id");
+
+        Map<String, Object> params = Map.of(
+                "craft", entity.craft(),
+                "name", entity.name());
+
+        astronautInsert.execute(params);
+        return entity;
     }
 
     @Override
@@ -31,7 +39,11 @@ public class AstronautJdbcRepository implements CrudRepository<Astronaut, Intege
 
     @Override
     public Optional<Astronaut> findById(Integer integer) {
-        return Optional.empty();
+        String sql = "SELECT * FROM astronaut WHERE astronaut_id=?";
+        RowMapper<Astronaut> rowMapper = getAstronautRowMapper();
+        List<Astronaut> result = jdbcTemplate.query(sql, rowMapper, integer);
+        Astronaut astronaut = DataAccessUtils.singleResult(result);
+        return Optional.ofNullable(astronaut);
     }
 
     @Override
@@ -42,10 +54,14 @@ public class AstronautJdbcRepository implements CrudRepository<Astronaut, Intege
     @Override
     public Iterable<Astronaut> findAll() {
         String sql = "SELECT * FROM astronaut";
-        RowMapper<Astronaut> rowMapper = (rs, rowNum) -> new Astronaut(
+        RowMapper<Astronaut> rowMapper = getAstronautRowMapper();
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    private static RowMapper<Astronaut> getAstronautRowMapper() {
+        return (rs, rowNum) -> new Astronaut(
                 rs.getString("craft"),
                 rs.getString("name"));
-        return jdbcTemplate.query(sql, rowMapper);
     }
 
     @Override
@@ -60,7 +76,8 @@ public class AstronautJdbcRepository implements CrudRepository<Astronaut, Intege
 
     @Override
     public void deleteById(Integer integer) {
-
+        String sql = "DELETE FROM astronaut WHERE astronaut_id=?";
+        jdbcTemplate.update(sql, integer);
     }
 
     @Override
@@ -81,15 +98,5 @@ public class AstronautJdbcRepository implements CrudRepository<Astronaut, Intege
     @Override
     public void deleteAll() {
 
-    }
-}
-
-class AstronautRowMapper implements RowMapper<Astronaut> {
-
-    @Override
-    public Astronaut mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Astronaut(
-                rs.getString("craft"),
-                rs.getString("name"));
     }
 }

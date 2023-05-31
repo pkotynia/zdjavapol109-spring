@@ -1,4 +1,4 @@
-package pl.sda.demo;
+package pl.sda.demo.astronaut;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
