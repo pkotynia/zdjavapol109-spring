@@ -22,14 +22,22 @@ class AstronautJdbcRepositoryTest {
 
     @Test
     void shouldSaveAstronaut() {
+        //given
         Astronaut astronaut = new Astronaut("Tom Hanks", "Apollo 13");
+
+        //when
         Astronaut save = repository.save(astronaut);
+
+        //then
         assertEquals(new Astronaut("Tom Hanks", "Apollo 13"), save);
     }
 
     @Test
     void shouldReturnAllAstronauts() {
+        //when
         Iterable<Astronaut> result = repository.findAll();
+
+        //then
         List<Astronaut> astronauts = new ArrayList<>();
         result.forEach(astronaut -> astronauts.add(astronaut));
         assertEquals(4, astronauts.size());
@@ -37,9 +45,11 @@ class AstronautJdbcRepositoryTest {
 
     @Test
     void shouldDelete() {
+        //when
         repository.deleteById(1);
-        Optional<Astronaut> byId = repository.findById(1);
 
+        //then
+        Optional<Astronaut> byId = repository.findById(1);
         assertEquals(Optional.empty(), byId);
     }
 

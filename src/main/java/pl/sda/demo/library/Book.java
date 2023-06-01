@@ -3,7 +3,9 @@ package pl.sda.demo.library;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -17,13 +19,20 @@ public class Book {
 
     private LocalDate publicationDate;
 
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private Set<Author> authors = new HashSet<>();
+
     public Book() {
 
     }
 
-    public Book(String title, LocalDate publicationDate) {
+    public Book(String title, LocalDate publicationDate, Set<Author> authors) {
         this.title = title;
         this.publicationDate = publicationDate;
+        this.authors = authors;
     }
 
     public Long getBookId() {
@@ -48,6 +57,14 @@ public class Book {
 
     public void setPublicationDate(LocalDate publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 
     @Override
@@ -76,6 +93,7 @@ public class Book {
                 "bookId=" + bookId +
                 ", title='" + title + '\'' +
                 ", publicationDate=" + publicationDate +
+                ", authors=" + authors +
                 '}';
     }
 }

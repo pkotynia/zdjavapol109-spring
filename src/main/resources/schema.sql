@@ -13,3 +13,16 @@ CREATE TABLE book (
     publication_date DATE NOT NULL,
     PRIMARY KEY (book_id)
 );
+
+DROP TABLE if EXISTS author;
+CREATE TABLE author (
+    author_id INT NOT NULL UNIQUE AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (author_id)
+);
+
+DROP TABLE if EXISTS book_author;
+CREATE TABLE book_author (
+    book_id INT,
+    author_id INT
+);
