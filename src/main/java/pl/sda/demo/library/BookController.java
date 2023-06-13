@@ -8,6 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.sda.demo.exception.ObjectNotFoundException;
 
 import java.net.URI;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -20,6 +21,11 @@ public class BookController {
 
     public BookController(BookService service) {
         this.service = service;
+    }
+
+    @GetMapping("/byAuthor")
+    public Map<String, Long> countBooksByAuthor(){
+        return service.countBooksByAuthor();
     }
 
     @GetMapping("/{uuid}")
@@ -45,6 +51,11 @@ public class BookController {
                 .created(location)
                 .body(saved);
 
+    }
+
+    @GetMapping("/byAuthor/{name}")
+    public Long countBooksByAuthorName(@PathVariable String name) {
+        return service.countBooksByAuthor(name);
     }
 
     private static URI createLocationHeader(Book saved) {

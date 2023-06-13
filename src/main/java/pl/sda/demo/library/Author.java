@@ -17,6 +17,7 @@ public class Author {
     private String name;
 
     @ManyToMany(mappedBy = "authors")
+    // to avoid stackoverflow due to circular dependency
     @JsonIgnore
     private Set<Book> books = new HashSet<>();
 
