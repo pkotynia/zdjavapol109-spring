@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import pl.sda.demo.astronaut.astronaut.Astronaut;
-import pl.sda.demo.astronaut.astronaut.AstronautJdbcRepository;
 
 import java.util.ArrayList;
 import java.util.List;

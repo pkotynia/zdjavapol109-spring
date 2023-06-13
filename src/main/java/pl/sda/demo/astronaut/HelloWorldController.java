@@ -1,4 +1,4 @@
-package pl.sda.demo.astronaut.astronaut;
+package pl.sda.demo.astronaut;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

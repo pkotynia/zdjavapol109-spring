@@ -8,8 +8,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
 
@@ -20,7 +18,8 @@ class BookControllerTest {
                 .uri("/books/99")
                 .exchange()
                 .expectStatus()
-                .is5xxServerError(); //TODO fix this by implementing exception handling
+                .isNotFound();
+//                .is5xxServerError(); //TODO fix this by implementing exception handling
     }
 
     @Test

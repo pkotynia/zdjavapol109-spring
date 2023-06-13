@@ -1,7 +1,8 @@
-package pl.sda.demo.astronaut.astronaut;
+package pl.sda.demo.astronaut;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.sda.demo.exception.ObjectNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +33,10 @@ public class AstroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Astronaut> getAstronautById(@PathVariable int id) {
+    public Astronaut getAstronautById(@PathVariable int id) {
         Optional<Astronaut> result = astroWebService.getAstronautById(id);
         return result
-                .map(astronaut -> ResponseEntity.ok(astronaut))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ObjectNotFoundException("Astronaut with id " + id + " not found"));
 
 //        if (!result.isPresent()) {
 //            return ResponseEntity

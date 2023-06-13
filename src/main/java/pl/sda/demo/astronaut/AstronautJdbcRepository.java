@@ -1,4 +1,4 @@
-package pl.sda.demo.astronaut.astronaut;
+package pl.sda.demo.astronaut;
 
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.data.repository.CrudRepository;

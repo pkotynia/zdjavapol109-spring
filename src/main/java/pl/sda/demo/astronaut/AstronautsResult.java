@@ -1,4 +1,4 @@
-package pl.sda.demo.astronaut.astronaut;
+package pl.sda.demo.astronaut;
 
 import java.util.List;
 

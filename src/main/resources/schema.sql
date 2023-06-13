@@ -9,6 +9,7 @@ CREATE TABLE astronaut (
 DROP TABLE if EXISTS book;
 CREATE TABLE book (
     book_id INT NOT NULL UNIQUE AUTO_INCREMENT,
+    book_uuid VARCHAR(255) NOT NULL UNIQUE,
     title VARCHAR(255) NOT NULL,
     publication_date DATE NOT NULL,
     PRIMARY KEY (book_id)

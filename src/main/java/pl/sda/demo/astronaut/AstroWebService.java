@@ -1,4 +1,4 @@
-package pl.sda.demo.astronaut.astronaut;
+package pl.sda.demo.astronaut;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;

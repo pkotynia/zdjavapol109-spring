@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.sda.demo.exception.ObjectNotFoundException;
 
 import java.net.URI;
 import java.util.Optional;
@@ -15,32 +16,42 @@ public class BookController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(BookController.class);
 
-    //Service should go here instead of repository to implement business logic
-    private final BookJpaRepository repository;
+    private final BookService service;
 
-    public BookController(BookJpaRepository repository) {
-        this.repository = repository;
+    public BookController(BookService service) {
+        this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public Book findBookById(@PathVariable Integer id) {
-        LOGGER.info("Finding object with id {}", id);
-        Optional<Book> byId = repository.findById(id);
-        return byId.orElseThrow(() -> new RuntimeException("Book not found"));
+    @GetMapping("/{uuid}")
+    public Book findBookById(@PathVariable String uuid) {
+        LOGGER.info("Finding object with id {}", uuid);
+        Optional<Book> byId = service.findByUUID(uuid);
+
+// this is a manual way of handling not found case - it was replaced by global exception handling mechanism        //
+//        ResponseEntity<Book> bookResponseEntity = byId
+//                .map(book -> ResponseEntity.ok(book))
+//                .orElseGet(() -> ResponseEntity.notFound().build());
+
+        return byId.orElseThrow(() -> new ObjectNotFoundException("book with id " + uuid + " not found"));
     }
 
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        Book saved = repository.save(book);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(saved.getBookId())
-                .toUri();
+        Book saved = service.save(book);
+
+        URI location = createLocationHeader(saved);
 
         return ResponseEntity
                 .created(location)
                 .body(saved);
 
+    }
+
+    private static URI createLocationHeader(Book saved) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getBookId())
+                .toUri();
     }
 }
