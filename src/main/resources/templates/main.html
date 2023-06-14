@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Menu</title>
+</head>
+<body>
+<p>Main menu <span th:text="${name}"></span></p>
+<div>
+    <a th:href="@{/interview/add}">
+        <button >Submit a question</button>
+    </a>
+</div>
+</body>
+</html>
