@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View All Questions</title>
+    <style>
+      table {
+        width: 100%;
+      }
+        th, td {
+        text-align: left;
+        padding: 10px;
+        border: 1px solid black;
+      }
+      th {
+        background-color: #ddd;
+      }
+
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Question</th>
+        <th>Answer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${questions}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.question}"></td>
+        <td th:text="${item.answer}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

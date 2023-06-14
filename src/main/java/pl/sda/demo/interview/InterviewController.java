@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/interview")
 public class InterviewController {
@@ -28,6 +30,11 @@ public class InterviewController {
         return "new";
     }
 
+    @GetMapping("/delete")
+    public String deleteView(){
+        return "delete";
+    }
+
     @PostMapping("/submit")
     public String submit(@RequestParam String question, @RequestParam String answer, Model model) {
         //todo save question
@@ -38,9 +45,21 @@ public class InterviewController {
         return "result";
     }
 
-
-
+    //delete question
+    @PostMapping("/delete")
+    public String delete(@RequestParam String id) {
+        //todo delete
+        return "main";
+    }
     //view all questions
 
-    //delete question
+
+    @GetMapping("/all")
+    public String all(Model model) {
+        Question q1 = new Question(1L, "What is meaning of life", "44");
+        Question q2 = new Question(2L, "Is it weekend", "No");
+        model.addAttribute("questions",List.of(q1, q2));
+        return "all";
+    }
+
 }
