@@ -1,13 +1,26 @@
 package pl.sda.demo.interview;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Question {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String question;
     private String answer;
 
     public Question(Long id, String question, String answer) {
         this.id = id;
+        this.question = question;
+        this.answer = answer;
+    }
+
+    public Question(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }

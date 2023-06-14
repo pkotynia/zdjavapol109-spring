@@ -1,3 +1,5 @@
+--CREATE SCHEMA if NOT EXISTS demo;
+
 DROP TABLE astronaut;
 CREATE TABLE astronaut (
     astronaut_id INT NOT NULL UNIQUE AUTO_INCREMENT,
@@ -26,4 +28,13 @@ DROP TABLE if EXISTS book_author;
 CREATE TABLE book_author (
     book_id INT,
     author_id INT
+);
+
+DROP TABLE if EXISTS question;
+CREATE TABLE question (
+    id INT NOT NULL UNIQUE AUTO_INCREMENT,
+    question VARCHAR(500) NOT NULL,
+    answer VARCHAR(500) NOT NULL,
+    PRIMARY KEY(id)
+
 );

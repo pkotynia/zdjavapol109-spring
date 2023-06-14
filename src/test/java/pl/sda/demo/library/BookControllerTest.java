@@ -19,7 +19,6 @@ class BookControllerTest {
                 .exchange()
                 .expectStatus()
                 .isNotFound();
-//                .is5xxServerError(); //TODO fix this by implementing exception handling
     }
 
     @Test

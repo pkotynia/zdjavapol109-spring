@@ -12,7 +12,7 @@ public interface BookJpaRepository extends JpaRepository<Book, Integer> {
     Optional<Book> findBookByBookUUID(String bookUUID);
 
     @Query("SELECT a.name, COUNT(a.books) FROM Author as a " +
-            "JOIN a.books as b GROUP BY a.name") //todo check why we need this join
+            "JOIN a.books as b GROUP BY a.name")
 //    @Query(value = """
 //            SELECT a.name, COUNT(b.book_id) FROM author a
 //            JOIN book_author ab ON a.author_id = ab.author_id
