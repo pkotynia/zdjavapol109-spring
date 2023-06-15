@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
+//class will handle all requests that are send to localhost:8080/interview
 @RequestMapping("/interview")
 public class InterviewController {
 
@@ -68,7 +69,8 @@ public class InterviewController {
     //view all questions
     @GetMapping("/all")
     public String all(Model model) {
-        model.addAttribute("questions", repository.findAll());
+        List<Question> questions = repository.findAll();
+        model.addAttribute("questions", questions);
         return "all";
     }
 
