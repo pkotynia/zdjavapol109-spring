@@ -2,6 +2,7 @@ package pl.sda.demo.library;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ public class Book {
     @Column(name = "book_uuid", unique = true)
     private String bookUUID;
 
+    @Size(min = 3, max = 20, message = "title must be in range 3 to 20")
     private String title;
 
     private LocalDate publicationDate;

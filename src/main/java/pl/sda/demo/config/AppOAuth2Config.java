@@ -2,9 +2,9 @@ package pl.sda.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -17,15 +17,20 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@Profile("jdbc")
-public class AppJdbcConfig {
+@Profile("prod")
+// This class combines both jdbc and oauth2 authentication configuration
+public class AppOAuth2Config {
 
     @Bean
+    // Implementation of UserDetailsManager interface returning JDBC implementation of this interface
     public UserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
     }
 
     @Bean
+    //In case of JDBC UserDetailsManager we need to provide additionally PasswordEncoder
+    //NoOp - No Operation Password Encoder is not recommended for any other purposes than testing
+    //in our case we are string passwords in DB in plane text
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
@@ -35,7 +40,13 @@ public class AppJdbcConfig {
 
         //set basic auth for all requests
         httpSecurity
-                .httpBasic();
+                //we allow httpBasic authentication - JDBC part
+                .httpBasic()
+                //returns HttpSecurity type and allow us to proceed with configuration
+                .and()
+                .oauth2Login(Customizer.withDefaults())
+                //provides default login page - this is needed to display redirect to github button
+                .formLogin(Customizer.withDefaults());
 
         //needed to be able to do POSTS :)
         httpSecurity
@@ -45,11 +56,12 @@ public class AppJdbcConfig {
         //configuration for all requests to be authenticated
         httpSecurity
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/interview/*")
+                .requestMatchers(HttpMethod.POST, "/interview/delete")
                 .hasAnyAuthority("ADMIN")
                 .anyRequest()
                 .authenticated();
 
         return httpSecurity.build();
     }
+
 }

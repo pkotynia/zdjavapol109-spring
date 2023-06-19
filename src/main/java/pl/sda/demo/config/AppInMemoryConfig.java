@@ -67,7 +67,7 @@ public class AppInMemoryConfig {
         //configuration for all requests to be authenticated
         httpSecurity
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/interview/*")
+                .requestMatchers(HttpMethod.POST, "/interview/delete")
                 .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();
