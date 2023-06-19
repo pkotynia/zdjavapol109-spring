@@ -36,5 +36,21 @@ CREATE TABLE question (
     question VARCHAR(500) NOT NULL,
     answer VARCHAR(500) NOT NULL,
     PRIMARY KEY(id)
+);
 
+DROP TABLE if EXISTS users;
+CREATE TABLE users (
+    id INT NOT NULL UNIQUE AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    enabled INT NOT NULL,
+    PRIMARY KEY(id)
+);
+
+DROP TABLE if EXISTS authorities;
+CREATE TABLE authorities (
+    id INT NOT NULL UNIQUE AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    authority VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
 );

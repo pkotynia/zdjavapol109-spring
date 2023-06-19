@@ -3,6 +3,8 @@ package pl.sda.demo.config;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -14,7 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class AppConfig {
+@Profile("test")
+public class AppInMemoryConfig {
     // UserDetailsManager -> inMemory
     @Bean
     public UserDetailsManager userDetailsManager() {
@@ -36,6 +39,15 @@ public class AppConfig {
                     .build();
             //adding user to inMemoryUserDetails
             userDetailsManager.createUser(user);
+            UserDetails admin = User
+                    .builder()
+                    .passwordEncoder(password -> PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(password))
+                    .password("admin")
+                    .username("admin")
+                    .roles("ADMIN")
+                    .build();
+            //adding user to inMemoryUserDetails
+            userDetailsManager.createUser(admin);
         };
     }
 
@@ -55,6 +67,8 @@ public class AppConfig {
         //configuration for all requests to be authenticated
         httpSecurity
                 .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/interview/*")
+                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();
 
