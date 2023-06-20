@@ -1,8 +1,8 @@
 package pl.sda.demo.library;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnore; //JSON parsing
+import jakarta.persistence.*; //Hibernate JPA
+import jakarta.validation.constraints.Size; //Hibernate Validation
 
 import java.time.LocalDate;
 import java.util.HashSet;

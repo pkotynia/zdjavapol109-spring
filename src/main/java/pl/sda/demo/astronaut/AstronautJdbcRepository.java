@@ -10,8 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
+//our jdbc repository implements CrudRepo containing all standard methods
+//unfortunately we need to implement all
 public class AstronautJdbcRepository implements CrudRepository<Astronaut, Integer> {
 
+    //jdbc template simplify using jdbc operations
     private final JdbcTemplate jdbcTemplate;
 
     public AstronautJdbcRepository(JdbcTemplate jdbcTemplate) {

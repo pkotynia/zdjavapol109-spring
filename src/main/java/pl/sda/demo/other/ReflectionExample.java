@@ -1,4 +1,4 @@
-package pl.sda.demo.oder;
+package pl.sda.demo.other;
 
 import org.springframework.stereotype.Component;
 

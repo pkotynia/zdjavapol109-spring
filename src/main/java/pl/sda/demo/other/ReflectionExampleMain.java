@@ -1,6 +1,4 @@
-package pl.sda.demo.oder;
-
-import pl.sda.demo.oder.ReflectionExample;
+package pl.sda.demo.other;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

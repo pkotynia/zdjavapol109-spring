@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloWorldController {
 
+    //allows to define URL for GET request in this our case localhost:8080/world
     @GetMapping("/world")
     public String sayHello() {
         return "Hello World";

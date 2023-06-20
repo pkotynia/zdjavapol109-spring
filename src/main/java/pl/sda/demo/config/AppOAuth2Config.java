@@ -57,7 +57,7 @@ public class AppOAuth2Config {
         httpSecurity
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/interview/delete")
-                .hasAnyAuthority("ADMIN")
+                .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated();
 
